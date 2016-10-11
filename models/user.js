@@ -11,7 +11,31 @@ module.exports =  class User1s{
        this.lastName = lastName;
        this.password = password;
    }
-   
+
+   insertIntoDb(reqObj,hash_password,hash_email,res,callback){
+
+    let insertSql = "INSERT INTO users SET ?";
+                let insertValues = {
+                    "profile_id": hash_email,
+                    "first_name": reqObj.first_name,
+                    "last_name": reqObj.last_name,
+                    "email": reqObj.email,
+                    "phone": reqObj.phone,
+                    "password": hash_password,
+                    "type_id": reqObj.type_id
+                };
+                db.query(insertSql, insertValues, function(err, result) {
+                     if (err)
+                return callback(err);
+            
+            callback(null, result[0])
+
+
+                });  
+   }
+
+
+  
    findById(profileId, callback){
        
         db.query('SELECT profile_id, first_name, last_name, email, password FROM users WHERE profile_id = ?', [profileId], function (err, result, fields) {
@@ -19,7 +43,7 @@ module.exports =  class User1s{
                 return callback(err);
             
             callback(null, result[0])
-        }); 
+        });
    }
    
    findByEmail(email, callback){
@@ -39,4 +63,8 @@ module.exports =  class User1s{
    
     
 }
+
+
+
+
 
