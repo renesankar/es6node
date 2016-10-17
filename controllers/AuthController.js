@@ -11,14 +11,11 @@ module.exports = class AuthController {
 
     authenticate(email, password, req, callback) {
 
-        let salt = bcrypt.genSaltSync(10);
-        let profileId = bcrypt.hashSync(email,salt);
         const user = new User();
         user.findByEmail(email,function(err, profile) {
 
                 bcrypt.compare(password, profile.password, function (err, doesMatch) {
                  if(err) {
-                    // res.send(err);
                      return callback(err);
                 }
              else {
@@ -39,7 +36,6 @@ module.exports = class AuthController {
             user.findById(profileId, function(err, profile) {
                 if (err)
                     return callback(err);
-                
                 callback(null, profile);
             });
         }
