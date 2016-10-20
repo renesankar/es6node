@@ -2,14 +2,17 @@
 
 let express = require('express');
 let router = express.Router();
+let multer = require('multer');
+let validator = require('validator');
+let upload = multer({ dest: 'C:/Users/MSI0730/trip/es6node/public/uploads/'});
 let AuthController  = require('../controllers/AuthController');
 let userController  = require('../controllers/userController');
+let HotelController  = require('../controllers/HotelController');
 
 router.post('/create', function (req, res, next) {
     
     if (req.method == 'POST') {
-        let reqObj= req.body;
-        // res.json(reqObj);
+        let reqObj = req.body;
         const user = new userController();
         // auth.print();
        user.create(reqObj,res,req, function(err, token) {
@@ -18,7 +21,9 @@ router.post('/create', function (req, res, next) {
             }
             res.status(200).json(token);
         });
-    }
+   
+    
+}
 });
 
 router.post('/authenticate', function (req, res, next) {
@@ -51,6 +56,37 @@ router.post('/token', function (req, res, next) {
                 res.json(profile);
             });
         }
+    }
+});
+
+/*register new hotel*/
+router.post('/registerhotel', function (req, res, next) {
+    
+    if (req.method == 'POST') {
+        let reqObj = req.body;
+        // res.json(reqObj);
+         const Hotel = new HotelController();
+       Hotel.create(reqObj,res,req, function(err, res) {
+            if(err) {
+                 res.status(400).json("Invalid request");
+            }
+        });
+    }
+});
+
+/*upload hotel image*/
+router.post('/hotelImage/:id',upload.any(),function (req, res, next) {
+    
+    if (req.method == 'POST') {
+
+        let hotel_id = req.params.id;
+        let reqObj = req.files;
+        const Hotel = new HotelController();
+        Hotel.imageUpload(hotel_id,reqObj,res,req, function(err, res) {
+            if(err) {
+                 res.status(400).json("Invalid request");
+            }
+        });
     }
 });
 

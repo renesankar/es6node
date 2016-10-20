@@ -19,7 +19,7 @@ module.exports = class AuthController {
                      return callback(err);
                 }
              else {
-               let token=getAuthToken(profile,req,callback);
+               let token = getAuthToken(profile,req,callback);
                 callback(null, token);
              }  
                 

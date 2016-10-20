@@ -10,8 +10,8 @@ module.exports =  class User1s {
        this.lastName =  lastName;
        this.email = email;
        this.password = password;
-       this.phone=phone;
-       this.type_id=type_id;      
+       this.phone = phone;
+       this.type_id = type_id;      
    }
  
 insertIntoDb(res,callback) {
@@ -26,12 +26,10 @@ insertIntoDb(res,callback) {
                     "password": this.password,
                     "type_id": this.type_id
                 };
-                // console.log(insertValues);
                 db.query(insertSql, insertValues, function(err, result) {
                      if (err)
                 return callback(err);
-            
-            callback(null, result[0])
+                callback(null, result[0])
 
                 });  
    }
@@ -56,7 +54,7 @@ insertIntoDb(res,callback) {
         });    
    }
    
-   save(callback){
+   save(callback) {
        
    }    
 }
